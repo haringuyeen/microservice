@@ -1,0 +1,199 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            # 1. AUTH SERVICE (Port 8081)
+            - id: auth-service
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/auth/**
+              filters:
+                - RewritePath=/api/auth/(?<segment>.*), /auth/${segment}
+
+            - id: user-service-list
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/users
+              filters:
+                - RewritePath=/api/users, /users
+
+            - id: user-service-detail
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/users/**
+              filters:
+                - RewritePath=/api/users/(?<segment>.*), /users/${segment}
+
+            # 2. PRODUCT SERVICE (Port 8082: Categories, Suppliers, Products)
+            - id: category-service-list
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/categories
+              filters:
+                - RewritePath=/api/categories, /categories
+
+            - id: category-service-detail
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/categories/**
+              filters:
+                - RewritePath=/api/categories/(?<segment>.*), /categories/${segment}
+
+            # Route riêng cho phiếu nhập của nhà cung cấp -> chuyển tới warehouse-service
+            - id: supplier-service-receipts
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/suppliers/*/receipts
+              filters:
+                - RewritePath=/api/suppliers/(?<id>.*)/receipts, /suppliers/${id}/receipts
+
+            - id: supplier-service-list
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/suppliers
+              filters:
+                - RewritePath=/api/suppliers, /suppliers
+
+            - id: supplier-service-detail
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/suppliers/**
+              filters:
+                - RewritePath=/api/suppliers/(?<segment>.*), /suppliers/${segment}
+
+            - id: product-service-list
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/products
+              filters:
+                - RewritePath=/api/products, /products
+
+            - id: product-service-detail
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/products/**
+              filters:
+                - RewritePath=/api/products/(?<segment>.*), /products/${segment}
+
+            # 3. WAREHOUSE SERVICE (Port 8083: Customers, Receipts, Dashboard, Reports)
+            - id: customer-service-list
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/customers
+              filters:
+                - RewritePath=/api/customers, /customers
+
+            - id: customer-service-detail
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/customers/**
+              filters:
+                - RewritePath=/api/customers/(?<segment>.*), /customers/${segment}
+
+            - id: import-receipt-service-list
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/import-receipts
+              filters:
+                - RewritePath=/api/import-receipts, /import-receipts
+
+            - id: import-receipt-service-detail
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/import-receipts/**
+              filters:
+                - RewritePath=/api/import-receipts/(?<segment>.*), /import-receipts/${segment}
+
+            - id: export-receipt-service-list
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/export-receipts
+              filters:
+                - RewritePath=/api/export-receipts, /export-receipts
+
+            - id: export-receipt-service-detail
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/export-receipts/**
+              filters:
+                - RewritePath=/api/export-receipts/(?<segment>.*), /export-receipts/${segment}
+
+            - id: dashboard-service-root
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/dashboard
+              filters:
+                - RewritePath=/api/dashboard, /dashboard
+
+            - id: dashboard-service
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/dashboard/**
+              filters:
+                - RewritePath=/api/dashboard/(?<segment>.*), /dashboard/${segment}
+
+            - id: report-service-root
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/reports
+              filters:
+                - RewritePath=/api/reports, /reports
+
+            - id: report-service-inventory
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/reports/**
+              filters:
+                - RewritePath=/api/reports/(?<segment>.*), /reports/${segment}
+
+            # 4. CUSTOMER SERVICE (Port 8084: Storefront, Customer Auth, Orders)
+            - id: storefront-service
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/storefront/**
+              filters:
+                - RewritePath=/api/storefront/(?<segment>.*), /storefront/${segment}
+
+            - id: customer-auth-service
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/customer-auth/**
+              filters:
+                - RewritePath=/api/customer-auth/(?<segment>.*), /customer-auth/${segment}
+
+            - id: order-service-list
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/orders
+              filters:
+                - RewritePath=/api/orders, /orders
+
+            - id: order-service-detail
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/orders/**
+              filters:
+                - RewritePath=/api/orders/(?<segment>.*), /orders/${segment}
+
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - "http://localhost:5173"
+                  - "http://localhost:5174"
+                allowedMethods: "*"
+                allowedHeaders: "*"
+
+jwt:
+  secret: WMS-Microservices-Secret-Key-Nam-3-Hoc-Ky-2026-Doi-Trong-Thuc-Te
+
+partner:
+  api-key: wms-partner-key-2026
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway
