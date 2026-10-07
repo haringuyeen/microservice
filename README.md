@@ -1,11 +1,11 @@
-# 🏢 HỆ THỐNG QUẢN LÝ KHO HÀNG (WMS) & CỬA HÀNG STOREFRONT VELVETY
+# 🏢 HỆ THỐNG QUẢN LÝ KHO HÀNG (WMS) & CỬA HÀNG STOREFRONT
 
 [![Architecture: Microservices](https://img.shields.io/badge/Architecture-Microservices-brightgreen.svg)](#-kiến-trúc-hệ-thống)
 [![Backend: Spring Boot](https://img.shields.io/badge/Backend-Spring%20Boot%203%2F4-6DB33F.svg?logo=springboot)](https://spring.io/projects/spring-boot)
 [![Frontend: React 19](https://img.shields.io/badge/Frontend-React%2019%20%2B%20Vite%20%2B%20TS-61DAFB.svg?logo=react)](https://react.dev/)
 [![Database: MySQL](https://img.shields.io/badge/Database-MySQL-4479A1.svg?logo=mysql)](https://www.mysql.com/)
 
-> **WMS Microservices & Storefront Velvety** là hệ thống quản lý kho hàng doanh nghiệp kết hợp cổng bán lẻ trực tuyến (E-commerce Storefront) được xây dựng theo kiến trúc Microservices hiện đại, tuân thủ nguyên tắc **Database-per-Service** và giao tiếp liên dịch vụ đồng bộ an toàn qua **Spring Cloud OpenFeign**.
+> **WMS Microservices & Storefront** là hệ thống quản lý kho hàng doanh nghiệp kết hợp cổng bán lẻ trực tuyến (E-commerce Storefront) được xây dựng theo kiến trúc Microservices hiện đại, tuân thủ nguyên tắc **Database-per-Service** và giao tiếp liên dịch vụ đồng bộ an toàn qua **Spring Cloud OpenFeign**.
 
 ---
 
